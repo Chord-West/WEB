@@ -3,10 +3,16 @@
 // 중앙 데이터 저장소 역할 , 컴포넌트가 필요로 할때 부분적으로 지원 ( React에서는 Context API 가 담당 )
 
 import {createWrapper} from 'next-redux-wrapper';
-import {createStore} from "redux";
+import {applyMiddleware, compose, createStore} from "redux";
+import {composeWithDevTools} from "redux-devtools-extension";
+import reducer from '../reducers';
 
 const configureStore = () =>{
-    const store = createStore(reducer);
+    const middlewares =[]
+    const enhancer = process.env.NODE_ENV ==='production'
+    ? compose(applyMiddleware(...middlewares)) // 배포용 미들웨어
+        : composeWithDevTools(applyMiddleware(...middlewares)) //개발용 미들웨어 (히스토리가 쌓임 => 보안에 취약할 수 있기 때문에 개발용에만 장착)
+    const store = createStore(reducer,enhancer);
     return store;
 };
 

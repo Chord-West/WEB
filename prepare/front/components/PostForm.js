@@ -1,13 +1,23 @@
-import {useCallback,useState} from 'react';
+import React, {useCallback,useState, useRef} from 'react';
 import {Form,Input,Button} from 'antd';
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+import {addPost} from "../reducers/post";
 
 const PostForm = () =>{
     const {imagePaths} = useSelector((state)=>state.post);
-    const [text,onChangeText] = useState('');
-    const onSubmit=useCallback(()=>{
-
+    const dispatach = useDispatch();
+    const imageInput = useRef(); // useRef는 실제 돔에 접근할 때 사용
+    const [text,setText] = useState('');
+    const onChangeText = useCallback((e)=>{
+        setText(e.target.value);
     },[]);
+    const onSubmit=useCallback(()=>{
+        dispatach(addPost);
+        setText('');
+    },[]);
+    const onClickImageUpload = useCallback(()=>{
+        imageInput.current.click(); //버튼을 눌러서 사진 업로드 창을 띄움
+    },[imageInput.current]);
     return(
       <Form style={{margin:'10px 0 20px'}} encType="multipart/form-data" onFinish={onSubmit}>
           <Input.TextArea
@@ -17,14 +27,17 @@ const PostForm = () =>{
               placehoder="어떤 신기한 일이 있었나요?"
           />
           <div>
-              <input type="file" multiple hidden/>
-              <Button>이미지 업로드</Button>
+              <input type="file" multiple hidden ref={imageInput}/>
+              <Button onClick={onClickImageUpload}>이미지 업로드</Button>
               <Button type="primary" style={{float:'right'}} htmlType="submit">짹짹</Button>
           </div>
           <div>
               {imagePaths.map((v)=>(
-                  <div>
-
+                  <div key={v} style={{display:'inline-block'}}>
+                      <img src={v} style={{width:'200px'}} alt={v}/>
+                      <div>
+                          <Button>제거</Button>
+                      </div>
                   </div>
               ))}
           </div>

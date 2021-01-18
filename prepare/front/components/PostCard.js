@@ -20,7 +20,7 @@ const PostCard = ({post}) =>{
       <div style={{marginBottom : 20}}>
           {/*배열안에 js를 넣어줄때는 key를 꼭 넣어줘야함*/}
           <Card
-              cover={post.Images[0] && <PostImages images={post.images}/>}
+              cover={post.Images[0] && <PostImages images={post.Images}/>}
               actions={[
                   <RetweetOutlined key="retweet"/>,
                   liked

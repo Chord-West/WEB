@@ -5,7 +5,7 @@ export const initialState ={
             id:1,
             nickname : '제로초',
         },
-        content :'첫 번째 게시글 # 해쉬태크 # 익스프레스',
+        content :'첫 번째 게시글 # 해쉬태크 #익스프레스',
         Images : [
             {src:'https://i.imgur.com/Bf97WeF.png'},
             {src:'https://i.imgur.com/Bf97WeF.png'},

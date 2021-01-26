@@ -5,6 +5,7 @@ import {HeartOutlined,RetweetOutlined,MessageOutlined,EllipsisOutlined,HeartTwoT
 import {useSelector} from "react-redux";
 import PostImages from "./PostImages";
 import CommentForm from "./CommentForm";
+import PostCardContent from "./PostCardContent";
 
 const PostCard = ({post}) =>{
     const id = useSelector((state)=>state.user.me?.id);// Optional Chaining연산자 me.id 가 있으면 그 값이고 , 없으면 undefined로 바꿔줌
@@ -26,7 +27,7 @@ const PostCard = ({post}) =>{
                   liked
                       ?<HeartTwoTone twoToneColor="#eb2f96" key="heart" onClick={onToggleLike}/>
                       :<HeartOutlined key="heart" onClick={onToggleLike}/>,
-                  <MessageOutlined key="commnet" onClick={onToggleComment}/>,
+                  <MessageOutlined key="comment" onClick={onToggleComment}/>,
                   <Popover key="more" content={(
                       <Button.Group>
                           {id && post.User.id === id ? (
@@ -44,7 +45,7 @@ const PostCard = ({post}) =>{
               <Card.Meta
                   avatar = {<Avatar>{post.User.nickname[0]}</Avatar>}
                   title = {post.User.nickname}
-                  description={post.content}
+                  description={<PostCardContent postData={post.content}/>}
               />
           </Card>
           {commentFormOpened&&(

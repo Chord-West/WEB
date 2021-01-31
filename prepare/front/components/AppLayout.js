@@ -30,7 +30,7 @@ const SearchInput = styled(Input.Search)`
 `;
 
 const AppLayout = ({children}) =>{
-    const isLoggedIn = useSelector((state) =>state.user.isLoggedIn); // redux에서 받아온 것
+    const {me} = useSelector((state) =>state.user); // redux에서 받아온 것
     return(
         <div>
             <Global/>
@@ -53,7 +53,7 @@ const AppLayout = ({children}) =>{
                  gutter : 컬럼사이의 간격 */}
                 <Col xs={24} md={6}>
                     {/*로그인 되어있으면 UseProfile 안되어있으면 LoginForm*/}
-                    {isLoggedIn ? <UserProfile/> : <LoginForm/>}
+                    {me ? <UserProfile/> : <LoginForm/>}
                 </Col>
                 <Col xs={24} md={12}>
                     {children}

@@ -1,20 +1,26 @@
-import React, {useCallback,useState, useRef} from 'react';
+import React, {useCallback, useRef} from 'react';
 import {Form,Input,Button} from 'antd';
 import {useDispatch, useSelector} from "react-redux";
 import {addPost} from "../reducers/post";
+import {useEffect} from "react/cjs/react.production.min";
+import useInput from "../hooks/useInput";
 
 const PostForm = () =>{
-    const {imagePaths} = useSelector((state)=>state.post);
-    const dispatach = useDispatch();
+    const {imagePaths,addPostDone} = useSelector((state)=>state.post);
+    const dispatch = useDispatch();
     const imageInput = useRef(); // useRef는 실제 돔에 접근할 때 사용
-    const [text,setText] = useState('');
-    const onChangeText = useCallback((e)=>{
-        setText(e.target.value);
-    },[]);
+    const [text,onChangeText,setText] = useInput(``);
+
+    useEffect(()=>{
+        if(addPostDone){
+            setText(``);
+        }
+    },[addPostDone]);
+
     const onSubmit=useCallback(()=>{
-        dispatach(addPost);
-        setText('');
-    },[]);
+        dispatch(addPost(text));
+    },[text]);
+
     const onClickImageUpload = useCallback(()=>{
         imageInput.current.click(); //버튼을 눌러서 사진 업로드 창을 띄움
     },[imageInput.current]);

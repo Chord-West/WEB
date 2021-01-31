@@ -1,20 +1,19 @@
 import React from 'react';
-import AppLayout from "../components/AppLayout";
-import {useSelector} from "react-redux";
-import PostForm from "../components/PostForm";
-import PostCard from "../components/PostCard";
+import { useSelector } from 'react-redux';
+import AppLayout from '../components/AppLayout';
+import PostForm from '../components/PostForm';
+import PostCard from '../components/PostCard';
 
-
-const Home = () =>{
-    const {isLoggedIn} = useSelector((state)=>state.user);
-    const {mainPosts} = useSelector((state)=>state.post);
-    return(
-        <AppLayout>
-            {/* 로그인됐을때만 PostForm이 보인다.*/}
-            {isLoggedIn&&<PostForm/>}
-            {mainPosts.map((post)=><PostCard key={post.id} post={post}/>)}
-        </AppLayout>
-    );
-}
+const Home = () => {
+  const { isLoggedIn } = useSelector((state) => state.user);
+  const { mainPosts } = useSelector((state) => state.post);
+  return (
+    <AppLayout>
+      {/* 로그인됐을때만 PostForm이 보인다. */}
+      {isLoggedIn && <PostForm />}
+      {mainPosts.map((post) => <PostCard key={post.id} post={post} />)}
+    </AppLayout>
+  );
+};
 
 export default Home;

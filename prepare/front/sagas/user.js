@@ -1,49 +1,47 @@
-
-//takeLatest 실수로 2번 클릭한거 방지 ( 마지막 클릭한 것을 실행 )
-import {all, delay, fork, put, takeLatest} from "redux-saga/effects";
-import axios from "axios";
+// takeLatest 실수로 2번 클릭한거 방지 ( 마지막 클릭한 것을 실행 )
+import { all, delay, fork, put, takeLatest } from 'redux-saga/effects';
+import axios from 'axios';
 import {
     LOG_IN_FAILURE,
     LOG_IN_REQUEST,
     LOG_IN_SUCCESS,
     LOG_OUT_FAILURE,
     LOG_OUT_REQUEST,
-    LOG_OUT_SUCCESS, SIGN_UP_FAILURE, SIGN_UP_REQUEST, SIGN_UP_SUCCESS
-} from "../reducers/user";
+    LOG_OUT_SUCCESS, SIGN_UP_FAILURE, SIGN_UP_REQUEST, SIGN_UP_SUCCESS,
+} from '../reducers/user';
 
-function logInAPI(data){
-    return axios.post('/api/login',data);
+function logInAPI(data) {
+    return axios.post('/api/login', data);
 }
-function logOutAPI(){
+function logOutAPI() {
     return axios.post('/api/logout');
 }
 // call과 fork 의 차이는 fork는 비동기, call은 동기
-function* logIn(action){
+function* logIn(action) {
     try {
         // const result= yield call(logInAPI,action.data);
-        console.log("sagaLogin")
+        console.log('sagaLogin');
         yield delay(1000);
         yield put({
             type : LOG_IN_SUCCESS,
             data : action.data,
-
         });
-    }catch(err){
+    } catch (err) {
         yield put({
             type : LOG_IN_FAILURE,
             error : err.response.data,
         });
     }
 }
-function* logOut(){
+function* logOut() {
     try {
-        //const result= yield call(logOutAPI);
+        // const result= yield call(logOutAPI);
         yield delay(1000);
         yield put({
             type : LOG_OUT_SUCCESS,
-            //data : result.data,
+            // data : result.data,
         });
-    }catch(err){
+    } catch (err) {
         yield put({
             type : LOG_OUT_FAILURE,
             data : err.response.data,
@@ -51,11 +49,11 @@ function* logOut(){
     }
 }
 
-function signUpAPI(){
+function signUpAPI() {
     return axios.post('/api/signUp');
 }
 // call과 fork 의 차이는 fork는 비동기, call은 동기
-function* signUp(action){
+function* signUp(action) {
     try {
         // const result= yield call(signUpAPI,action.data);
         yield delay(1000);
@@ -64,27 +62,27 @@ function* signUp(action){
             data : action.data,
 
         });
-    }catch(err){
+    } catch (err) {
         yield put({
             type : SIGN_UP_FAILURE,
             error : err.response.data,
         });
     }
 }
-function* watchLogIn(){
-    yield takeLatest(LOG_IN_REQUEST,logIn); //login
+function* watchLogIn() {
+    yield takeLatest(LOG_IN_REQUEST, logIn); // login
 }
-function* watchLogOut(){
-    yield takeLatest(LOG_OUT_REQUEST,logOut);
+function* watchLogOut() {
+    yield takeLatest(LOG_OUT_REQUEST, logOut);
 }
 
-function* watchSignUp(){
-    yield takeLatest(SIGN_UP_REQUEST,signUp);
+function* watchSignUp() {
+    yield takeLatest(SIGN_UP_REQUEST, signUp);
 }
-export default function* userSaga(){
+export default function* userSaga() {
     yield all([
         fork(watchLogIn),
         fork(watchLogOut),
         fork(watchSignUp),
-    ])
+    ]);
 }

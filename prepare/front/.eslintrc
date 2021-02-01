@@ -30,6 +30,7 @@
     "react/jsx-filename-extension": "off",
     "react/jsx-one-expression-per-line": "off",
     "object-curly-newline": "off",
-
+    "key-spacing": "off",
+    "indent": "off",
   }
 }

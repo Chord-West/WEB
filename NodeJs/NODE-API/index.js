@@ -1,21 +1,18 @@
 const express = require('express');
 const app = express();
+const bodyParser = require('body-parser');
 const morgan = require('morgan');
+const user = require('./api/user');
 
-let users = [
-    {id: 1, name : 'alice'},
-    {id: 2, name : 'bek'},
-    {id: 3, name : 'chris'},
-];
 
-app.use(morgan('dev'));
+// 미들웨어 추가하는 부분
+if (process.env.NODE_ENV !== 'test'){
+    app.use(morgan('dev')); //test 환경이 아닐때는 log가 찍히지 않음
+}
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended : true}));
 
-app.get('/users', (req,res) => {
-   res.json(users);
-});
+app.use('/users',user);
 
-app.listen(3000,() => {
-    console.log('Server is Running');
-});
 
 module.exports = app;

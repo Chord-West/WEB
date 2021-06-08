@@ -1,6 +1,6 @@
 {
-  "compilerOptions": { // Compiler 옵션
-    "esModuleInterop": true,  // import * as React from 'react'; =>  import React from 'react';
+  "compilerOptions": {
+    "esModuleInterop": true,
     "sourceMap": true,
     "lib": ["ES2020", "DOM"],
     "jsx": "react",
